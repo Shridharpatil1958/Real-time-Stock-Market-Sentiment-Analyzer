@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Sentiment Analyzer | Real-Time AI Analytics</title>
+    <link rel="stylesheet" href="styles/modern_styles.css">
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Animated Background Elements -->
+        <div class="bg-orbs">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+
+        <!-- Header Section with Enhanced Design -->
+        <header class="header">
+            <div class="header-glow"></div>
+            <div class="header-content">
+                <h1 class="main-title">
+                    <span class="icon pulse-icon">📈</span>
+                    <span class="title-text">
+                        <span class="title-line">Stock Market</span>
+                        <span class="title-line gradient-text">Sentiment Analyzer</span>
+                    </span>
+                </h1>
+                <p class="subtitle">
+                    <span class="subtitle-icon">🤖</span>
+                    AI-Powered Real-Time Analytics & Market Intelligence
+                </p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="refreshData()">
+                    <span class="btn-icon">🔄</span>
+                    <span class="btn-text">Refresh</span>
+                    <span class="btn-shimmer"></span>
+                </button>
+                <div class="auto-refresh-toggle glass">
+                    <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+                    <label for="autoRefresh">
+                        <span class="toggle-icon">⏱️</span>
+                        Auto-refresh (5m)
+                    </label>
+                </div>
+            </div>
+        </header>
+
+        <!-- Enhanced Control Panel -->
+        <div class="control-panel glass">
+            <div class="control-section">
+                <h3>
+                    <span class="section-icon">🎯</span>
+                    Stock Selection
+                </h3>
+                <div class="stock-chips">
+                    <button class="chip active" data-ticker="AAPL" onclick="toggleStock(this)">
+                        <span class="chip-icon">🍎</span>
+                        <span class="chip-content">
+                            <span class="chip-ticker">AAPL</span>
+                            <span class="chip-name">Apple</span>
+                        </span>
+                        <span class="chip-glow"></span>
+                    </button>
+                    <button class="chip active" data-ticker="TSLA" onclick="toggleStock(this)">
+                        <span class="chip-icon">⚡</span>
+                        <span class="chip-content">
+                            <span class="chip-ticker">TSLA</span>
+                            <span class="chip-name">Tesla</span>
+                        </span>
+                        <span class="chip-glow"></span>
+                    </button>
+                    <button class="chip active" data-ticker="MSFT" onclick="toggleStock(this)">
+                        <span class="chip-icon">💻</span>
+                        <span class="chip-content">
+                            <span class="chip-ticker">MSFT</span>
+                            <span class="chip-name">Microsoft</span>
+                        </span>
+                        <span class="chip-glow"></span>
+                    </button>
+                    <button class="chip active" data-ticker="GOOGL" onclick="toggleStock(this)">
+                        <span class="chip-icon">🔍</span>
+                        <span class="chip-content">
+                            <span class="chip-ticker">GOOGL</span>
+                            <span class="chip-name">Google</span>
+                        </span>
+                        <span class="chip-glow"></span>
+                    </button>
+                    <button class="chip active" data-ticker="AMZN" onclick="toggleStock(this)">
+                        <span class="chip-icon">📦</span>
+                        <span class="chip-content">
+                            <span class="chip-ticker">AMZN</span>
+                            <span class="chip-name">Amazon</span>
+                        </span>
+                        <span class="chip-glow"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="control-section">
+                <h3>
+                    <span class="section-icon">⏰</span>
+                    Time Range
+                </h3>
+                <div class="range-container">
+                    <input type="range" id="timeRange" min="1" max="30" value="7" oninput="updateTimeRange(this.value)">
+                    <div class="range-track">
+                        <div class="range-fill"></div>
+                    </div>
+                </div>
+                <span class="range-value" id="timeRangeValue">
+                    <span class="range-number">7</span> days
+                </span>
+            </div>
+        </div>
+
+        <!-- Stock Cards Grid with Enhanced Cards -->
+        <div class="stock-grid" id="stockGrid">
+            <!-- Stock cards will be dynamically generated with enhanced styling -->
+        </div>
+
+        <!-- Enhanced Tabs Section -->
+        <div class="tabs-container glass">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab('overview')">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-label">Overview</span>
+                    <span class="tab-indicator"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('analysis')">
+                    <span class="tab-icon">📈</span>
+                    <span class="tab-label">Analysis</span>
+                    <span class="tab-indicator"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('correlation')">
+                    <span class="tab-icon">🔍</span>
+                    <span class="tab-label">Correlation</span>
+                    <span class="tab-indicator"></span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('mentions')">
+                    <span class="tab-icon">💬</span>
+                    <span class="tab-label">Mentions</span>
+                    <span class="tab-indicator"></span>
+                </button>
+            </div>
+
+            <!-- Tab Content with Enhanced Layout -->
+            <div class="tab-content active" id="overview-tab">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>
+                            <span class="chart-icon">📊</span>
+                            Multi-Stock Comparison
+                        </h2>
+                        <div class="chart-badge">Live Data</div>
+                    </div>
+                    <div id="comparisonChart" class="chart-box"></div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h2>
+                            <span class="chart-icon">🔥</span>
+                            Sentiment-Price Correlation Heatmap
+                        </h2>
+                        <div class="chart-badge">Analytics</div>
+                    </div>
+                    <div id="heatmapChart" class="chart-box"></div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="analysis-tab">
+                <div class="analysis-header">
+                    <h2>
+                        <span class="chart-icon">🎯</span>
+                        Detailed Stock Analysis
+                    </h2>
+                    <select id="stockSelector" onchange="updateDetailedAnalysis()" class="select-enhanced">
+                        <option value="AAPL">🍎 Apple (AAPL)</option>
+                        <option value="TSLA">⚡ Tesla (TSLA)</option>
+                        <option value="MSFT">💻 Microsoft (MSFT)</option>
+                        <option value="GOOGL">🔍 Google (GOOGL)</option>
+                        <option value="AMZN">📦 Amazon (AMZN)</option>
+                    </select>
+                </div>
+                <div class="analysis-grid">
+                    <div class="gauge-container">
+                        <div id="sentimentGauge" class="gauge-box"></div>
+                        <div class="metrics-panel glass">
+                            <div class="panel-header">
+                                <span class="panel-icon">📊</span>
+                                <span class="panel-title">Key Metrics</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">
+                                    <span class="metric-dot"></span>
+                                    Average Sentiment
+                                </span>
+                                <span class="metric-value gradient-text" id="avgSentiment">0.000</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">
+                                    <span class="metric-dot"></span>
+                                    Sentiment Volatility
+                                </span>
+                                <span class="metric-value gradient-text" id="sentimentVol">0.000</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">
+                                    <span class="metric-dot"></span>
+                                    Price Correlation
+                                </span>
+                                <span class="metric-value gradient-text" id="priceCorr">0.000</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-large">
+                        <div id="sentimentPriceChart" class="chart-box"></div>
+                    </div>
+                </div>
+                <div class="charts-row">
+                    <div class="chart-half">
+                        <div class="chart-header-small">
+                            <span class="chart-icon-small">📈</span>
+                            <span>Volume Analysis</span>
+                        </div>
+                        <div id="volumeChart" class="chart-box"></div>
+                    </div>
+                    <div class="chart-half">
+                        <div class="chart-header-small">
+                            <span class="chart-icon-small">📊</span>
+                            <span>Distribution</span>
+                        </div>
+                        <div id="distributionChart" class="chart-box"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="correlation-tab">
+                <div class="tab-header-section">
+                    <h2>
+                        <span class="chart-icon">🔬</span>
+                        Correlation Analysis
+                    </h2>
+                </div>
+                <div class="info-box glass">
+                    <div class="info-header">
+                        <span class="info-icon">💡</span>
+                        <span class="info-title">Interpretation Guide</span>
+                    </div>
+                    <ul>
+                        <li>
+                            <span class="bullet-icon">✓</span>
+                            <strong>Positive correlation:</strong> Sentiment and price move in the same direction
+                        </li>
+                        <li>
+                            <span class="bullet-icon">✓</span>
+                            <strong>Negative correlation:</strong> Sentiment and price move in opposite directions
+                        </li>
+                        <li>
+                            <span class="bullet-icon">✓</span>
+                            <strong>Leading correlation:</strong> Sentiment predicts future price movement
+                        </li>
+                    </ul>
+                </div>
+                <div class="correlation-table" id="correlationTable">
+                    <!-- Table will be generated dynamically -->
+                </div>
+            </div>
+
+            <div class="tab-content" id="mentions-tab">
+                <div class="tab-header-section">
+                    <h2>
+                        <span class="chart-icon">💬</span>
+                        Top Mentions
+                    </h2>
+                    <select id="mentionStockSelector" onchange="updateMentions()" class="select-enhanced">
+                        <option value="AAPL">🍎 Apple (AAPL)</option>
+                        <option value="TSLA">⚡ Tesla (TSLA)</option>
+                        <option value="MSFT">💻 Microsoft (MSFT)</option>
+                        <option value="GOOGL">🔍 Google (GOOGL)</option>
+                        <option value="AMZN">📦 Amazon (AMZN)</option>
+                    </select>
+                </div>
+                <div class="mentions-grid">
+                    <div class="mentions-column">
+                        <h3 class="positive-header">
+                            <span class="mention-badge positive">
+                                <span class="badge-icon">🟢</span>
+                                Positive
+                            </span>
+                        </h3>
+                        <div id="positiveMentions" class="mentions-list"></div>
+                    </div>
+                    <div class="mentions-column">
+                        <h3 class="negative-header">
+                            <span class="mention-badge negative">
+                                <span class="badge-icon">🔴</span>
+                                Negative
+                            </span>
+                        </h3>
+                        <div id="negativeMentions" class="mentions-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Footer -->
+        <footer class="footer glass">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <span class="footer-icon">📈</span>
+                    <span class="footer-text">Real-time Stock Market Sentiment Analyzer</span>
+                </div>
+                <div class="footer-divider"></div>
+                <div class="footer-section">
+                    <span class="footer-icon">⚡</span>
+                    <span class="footer-text">Data updates every 5 minutes</span>
+                </div>
+            </div>
+            <div class="footer-warning">
+                <span class="warning-icon">⚠️</span>
+                <span class="warning">This is a demo using simulated sentiment data. Not for actual trading decisions.</span>
+            </div>
+            <div class="footer-update">
+                <span class="update-label">Last updated:</span>
+                <span class="last-update" id="lastUpdate">--</span>
+                <span class="update-pulse"></span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <span class="loading-text">Loading data...</span>
+        </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>
