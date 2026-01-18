@@ -2,6 +2,27 @@
 
 A sophisticated, single-screen dashboard that analyzes real-time sentiment from social media and correlates it with stock price movements. Built with Streamlit and featuring a sleek dark theme with modern UI/UX design.
 
+# 📸 Dashboard Screenshots
+
+## 📈 Main Dashboard – Real-Time Sentiment Overview
+AI-Powered Stock Sentiment Dashboard
+<img width="1919" height="924" alt="Screenshot 2026-01-15 142346" src="https://github.com/user-attachments/assets/8adcfabc-b6e3-4ef4-9874-7a5404e4bead" />
+Displays real-time sentiment scores, current stock prices, price changes, and sentiment-price correlation for selected stocks using live market and social data.
+
+## 🔍 Stock Selection & Time Range Control
+Interactive Stock & Time Range Selection
+<img width="1920" height="927" alt="Screenshot 2026-01-15 142421" src="https://github.com/user-attachments/assets/6295cae8-d65b-4692-a488-b0ade0c10d16" />
+Allows users to switch between multiple stocks (AAPL, TSLA, MSFT, GOOGL, AMZN) and analyze sentiment trends over a selected time window with auto-refresh support.
+
+## 📊 Detailed Stock Analysis
+Sentiment Strength & Price Movement Analysis
+<img width="1919" height="921" alt="Screenshot 2026-01-15 142409" src="https://github.com/user-attachments/assets/f00742dc-bd1d-44c6-bd60-f7ac4522f686" />
+Provides a detailed breakdown of sentiment strength using gauge indicators and time-series visualization comparing stock price movements with sentiment fluctuations.
+
+## 🔗 Correlation Analysis Dashboard
+Sentiment vs Price Correlation Insights
+<img width="1918" height="926" alt="Screenshot 2026-01-15 142440" src="https://github.com/user-attachments/assets/a1f64c7c-4c11-40a5-a17f-8ef618914fc4" />
+Shows correlation metrics such as average sentiment, price correlation, leading correlation, and sentiment volatility to evaluate how public sentiment impacts stock prices.
 
 ## ✨ Features
 
@@ -309,20 +330,6 @@ fig.update_layout(height=280)  # Change to desired height
 - **VADER Sentiment** - Sentiment analysis tool
 - **Plotly** - Interactive visualization library
 
-## 📸 Screenshots
-
-### Overview Tab
-![Overview](screenshots/overview.png)
-
-### Analysis Tab
-![Analysis](screenshots/analysis.png)
-
-### Correlation Tab
-![Correlation](screenshots/correlation.png)
-
-### Mentions Tab
-![Mentions](screenshots/mentions.png)
-
 ## 🐛 Known Issues
 
 1. **Cache Persistence**: Data cache clears on app restart
@@ -349,5 +356,6 @@ If you find this project useful, please consider giving it a star!
 ---
 
 Made with ❤️ and Python | © 2026 Stock Market Sentiment Analyzer
+
 
 [def]: https://www.linkedin.com/in/shridhar-patil-908480220
